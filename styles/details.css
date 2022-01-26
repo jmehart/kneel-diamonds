@@ -1,5 +1,15 @@
 /* You need to create the rest of styles for the layout shown */
 
+
+.customOrders {
+    padding: 1rem 5rem;
+}
+
+.choices {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .options {
     flex-basis: 24%;
     margin: 0 2rem;
