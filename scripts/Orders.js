@@ -1,8 +1,9 @@
-import { addCustomOrder, getOrders, getMetals, getStyles, getSizes } from "./database.js"
+import { addCustomOrder, getOrders, getMetals, getStyles, getSizes, getTypes } from "./database.js"
 
 const metals = getMetals()
 const styles = getStyles()
 const sizes = getSizes()
+const types = getTypes()
 
 
 const buildOrderListItem = (order) => {
@@ -25,7 +26,15 @@ const buildOrderListItem = (order) => {
         }
     )
 
-    const totalCost = foundMetal.price + foundStyle.price + foundSize.price
+    const foundType = types.find(
+        (type) => {
+            return type.id === order.typeId
+        }
+    )
+
+    let totalCost = foundMetal.price + foundStyle.price + foundSize.price
+
+    totalCost *= foundType.priceMultiplier
 
     const costString = totalCost.toLocaleString("en-US", {
     style: "currency",
@@ -54,6 +63,7 @@ export const Orders = () => {
 
     return html
 }
+
 
 
 document.addEventListener(

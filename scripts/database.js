@@ -25,14 +25,13 @@ const database = {
         { id: 4, metal: "Platinum", price: 795.45 },
         { id: 5, metal: "Palladium", price: 1241.0 }
     ],
+    types: [
+        { id: 1, type: "Ring", priceMultiplier: 1 },
+        { id: 2, type: "Earring", priceMultiplier: 2 },
+        { id: 3, type: "Necklace", priceMultiplier: 4 }
+    ],
     customOrders: [
-        {
-            id: 1,
-            metalId: 3,
-            sizeId: 2,
-            styleId: 3,
-            timestamp: 1614659931693
-        }
+
     ],
     orderBuilder: {},
 }
@@ -47,6 +46,10 @@ export const getSizes = () => {
 
 export const getStyles = () => {
     return database.styles.map(style => ({...style}))
+}
+
+export const getTypes = () => {
+    return database.types.map(type => ({...type}))
 }
 
 export const getOrders = () => {
@@ -65,13 +68,21 @@ export const setStyle = (id) => {
     database.orderBuilder.styleId = id
 }
 
+export const setType = (id) => {
+    database.orderBuilder.typeId = id
+}
+
+export const getState = () => {
+    return {...database.orderBuilder}
+}
+
 export const addCustomOrder = () => {
     // Copy the current state of user choices
     const newOrder = {...database.orderBuilder}
 
     // Add a new primary key to the object
-    const lastIndex = database.customOrders.length - 1
-    newOrder.id = database.customOrders[lastIndex].id + 1
+    const lastIndex = database.customOrders.length 
+    newOrder.id = lastIndex + 1
 
     // Add a timestamp to the order
     newOrder.timestamp = Date.now()
