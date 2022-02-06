@@ -1,4 +1,4 @@
-import { getTypes, setType } from "./dataAccess.js"
+import { getState, getTypes, setType } from "./dataAccess.js"
 
 const types = getTypes()
 
@@ -8,6 +8,7 @@ document.addEventListener(
     (event) => {
         if (event.target.name === "type") {
             setType(parseInt(event.target.value))
+            document.dispatchEvent(new CustomEvent("stateChanged"))
         }
     }
 )
@@ -15,11 +16,17 @@ document.addEventListener(
 export const Types = () => {
     let html = "<div>"
 
+    const state = getState()
 
     const typeItems = types.map((type) => {
-        return `
-            <input type="radio" name="type" value="${type.id}" /> ${type.type}
-        `
+        if (type.id === state.typeId) {
+            return `
+            <input type="radio" name="type" value="${type.id}" checked /> ${type.type} `
+        } else {
+            return `
+            <input type="radio" name="type" value="${type.id}" /> ${type.type} `
+        }
+        
     })
 
     html += typeItems.join("")
